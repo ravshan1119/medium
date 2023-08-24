@@ -11,15 +11,15 @@ class GlobalTextField extends StatelessWidget {
     required this.textAlign,
     this.obscureText = false,
     this.maxLine = 1,
-    required this.controller,
+    required this.onChanged,
   }) : super(key: key);
 
   final String hintText;
   TextInputType keyboardType;
   TextInputAction textInputAction;
   TextAlign textAlign;
+  final ValueChanged<String> onChanged;
   final bool obscureText;
-  final TextEditingController controller;
   final int maxLine;
 
   @override
@@ -43,7 +43,6 @@ class GlobalTextField extends StatelessWidget {
         textInputAction: textInputAction,
         keyboardType: keyboardType,
         obscureText: obscureText,
-        controller: controller,
         decoration: InputDecoration(
           filled: true,
           fillColor: AppColors.white,

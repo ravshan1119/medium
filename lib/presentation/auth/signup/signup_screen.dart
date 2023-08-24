@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medium/cubits/auth/auth_cubit.dart';
 import 'package:medium/cubits/user_data/user_data_cubit.dart';
-import 'package:medium/data/models/user/user_model.dart';
+import 'package:medium/data/models/user/user_field_keys.dart';
 import 'package:medium/presentation/app_routes.dart';
 import 'package:medium/presentation/auth/widgets/gender_selecter.dart';
 import 'package:medium/presentation/auth/widgets/global_button.dart';
@@ -22,204 +22,201 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController gmailController = TextEditingController();
-  final TextEditingController professionController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
   ImagePicker picker = ImagePicker();
 
   XFile? file;
 
   int gender = 1;
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         // title: Text("SignUp"),
         elevation: 0,
         toolbarHeight: 0,
       ),
-      body: BlocConsumer<AuthCubit,AuthState>(
-        builder: (context,state){
-          if (state is AuthLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                children: [
-                  SizedBox(height: 20.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Register Account",
-                        style: TextStyle(
-                            fontSize: 26.sp,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                            fontFamily: "PlusJakartaSans"),
-                      ),
-                      GestureDetector(
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
-                          child: SvgPicture.asset(AppImages.cancel))
-                    ],
-                  ),
-                  SizedBox(height: 27.h),
-                  Text(
-                    "You can create the account with input your name, email address, and password",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.c_4D4D4D,
-                        fontFamily: "PlusJakartaSans"),
-                  ),
-                  SizedBox(height: 30.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: GlobalTextField(
-                        hintText: "Username",
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        textAlign: TextAlign.start,
-                        controller: usernameController),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: GlobalTextField(
-                        hintText: "Contact",
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        textAlign: TextAlign.start,
-                        controller: phoneController),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: GlobalTextField(
-                        hintText: "Email",
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        textAlign: TextAlign.start,
-                        controller: gmailController),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: GlobalTextField(
-                        hintText: "Password",
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        textAlign: TextAlign.start,
-                        controller:passwordController),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: GlobalTextField(
-                        hintText: "Profession",
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        textAlign: TextAlign.start,
-                        controller: professionController),
-                  ),
-                  SizedBox(height: 30.h),
-                  // const SizedBox(height: 20),
-                  GenderSelector(
-                    onMaleTap: () {
-                      setState(() {
-                        gender = 1;
-                      });
+      body: BlocConsumer<AuthCubit, AuthState>(builder: (context, state) {
+        if (state is AuthLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              children: [
+                SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Register Account",
+                      style: TextStyle(
+                          fontSize: 26.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          fontFamily: "PlusJakartaSans"),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: SvgPicture.asset(AppImages.cancel))
+                  ],
+                ),
+                SizedBox(height: 27.h),
+                Text(
+                  "You can create the account with input your name, email address, and password",
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.c_4D4D4D,
+                      fontFamily: "PlusJakartaSans"),
+                ),
+                SizedBox(height: 30.h),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: GlobalTextField(
+                    onChanged: (v) {
+                      context.read<UserDataCubit>().updateCurrentUserField(
+                          fieldKey: UserFieldKeys.username, value: v);
                     },
-                    onFemaleTap: () {
-                      setState(() {
-                        gender = 0;
-                      });
-                    },
-                    gender: gender,
+                    hintText: "Username",
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
+                    textAlign: TextAlign.start,
                   ),
-                  TextButton(
-                      onPressed: () {
-                        showBottomSheetDialog();
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: GlobalTextField(
+                    onChanged: (v) {
+                      context.read<UserDataCubit>().updateCurrentUserField(
+                          fieldKey: UserFieldKeys.contact, value: v);
+                    },
+                    hintText: "Contact",
+                    keyboardType: TextInputType.phone,
+                    textInputAction: TextInputAction.next,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: GlobalTextField(
+                    onChanged: (v) {
+                      context.read<UserDataCubit>().updateCurrentUserField(
+                          fieldKey: UserFieldKeys.email, value: v);
+                    },
+                    hintText: "Email",
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: GlobalTextField(
+                    onChanged: (v) {
+                      context.read<UserDataCubit>().updateCurrentUserField(
+                          fieldKey: UserFieldKeys.password, value: v);
+                    },
+                    hintText: "Password",
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: GlobalTextField(
+                    onChanged: (v) {
+                      context.read<UserDataCubit>().updateCurrentUserField(
+                          fieldKey: UserFieldKeys.profession, value: v);
+                    },
+                    hintText: "Profession",
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                SizedBox(height: 30.h),
+                // const SizedBox(height: 20),
+                const GenderSelector(),
+                TextButton(
+                    onPressed: () {
+                      showBottomSheetDialog();
+                    },
+                    child: const Text("Select image")),
+                SizedBox(height: 20.h),
+                GlobalButton(
+                    title: "Register",
+                    onTap: () {
+                      if (context.read<UserDataCubit>().canRegister()) {
+                        context.read<AuthCubit>().sendCodeToGmail(
+                              context
+                                  .read<UserDataCubit>()
+                                  .state
+                                  .userModel
+                                  .email,
+                              context
+                                  .read<UserDataCubit>()
+                                  .state
+                                  .userModel
+                                  .password,
+                            );
+                      } else {
+                        showErrorMessage(
+                            message: "Maydonlar to'liq emas", context: context);
+                      }
+                    },
+                    color: Colors.black,
+                    borderColor: Colors.black,
+                    textColor: Colors.white),
+                SizedBox(height: 11.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "You don't have an account?",
+                      style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.c_4D4D4D,
+                          fontFamily: "PlusJakartaSans"),
+                    ),
+                    const SizedBox(width: 4),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, RouteNames.loginScreen);
                       },
-                      child: Text("Select image")),
-                  SizedBox(height: 20.h),
-                  GlobalButton(title: "Register", onTap: (){
-                    if (context.read<UserDataCubit>().canRegister()) {
-                      context.read<AuthCubit>().sendCodeToGmail(
-                        context.read<UserDataCubit>().state.userModel.email,
-                        context
-                            .read<UserDataCubit>()
-                            .state
-                            .userModel
-                            .password,
-                      );
-                    }else{
-                      showErrorMessage(message: "Maydonlar to'liq emas", context: context);
-                    }
-
-                  }, color: Colors.black, borderColor: Colors.black, textColor: Colors.white),
-                  SizedBox(height: 11.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "You don't have an account?",
+                      child: Text(
+                        "Log in",
                         style: TextStyle(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.c_4D4D4D,
+                            color: AppColors.black,
                             fontFamily: "PlusJakartaSans"),
                       ),
-                      const SizedBox(width: 4),
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.pushNamed(context, RouteNames.loginScreen);
-                        },
-                        child: Text(
-                          "Log in",
-                          style: TextStyle(
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.black,
-                              fontFamily: "PlusJakartaSans"),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                  ],
+                )
+              ],
             ),
+          ),
+        );
+      }, listener: (context, state) {
+        if (state is AuthSendCodeSuccessState) {
+          Navigator.pushNamed(
+            context,
+            RouteNames.confirmGmail,
+            arguments: context.read<UserDataCubit>().state.userModel,
           );
+        }
 
-        },
-          listener: (context, state) {
-            if (state is AuthSendCodeSuccessState) {
-              UserModel userModel = UserModel(
-                password: passwordController.text,
-                username: usernameController.text,
-                email: gmailController.text,
-                avatar: file!.path,
-                contact: phoneController.text,
-                gender: gender.toString(),
-                profession: professionController.text,
-                role: "male",
-              );
-              Navigator.pushNamed(
-                context,
-                RouteNames.confirmGmail,
-                arguments: userModel,
-              );
-            }
-
-            if (state is AuthErrorState) {
-              showErrorMessage(message: state.errorText, context: context);
-            }
-          }
-      ),
+        if (state is AuthErrorState) {
+          showErrorMessage(message: state.errorText, context: context);
+        }
+      }),
     );
   }
 

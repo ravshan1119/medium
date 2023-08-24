@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medium/utils/colors/app_colors.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 class GlobalButton extends StatelessWidget {
   const GlobalButton({Key? key, required this.title, required this.onTap, required this.color, required this.borderColor, required this.textColor})

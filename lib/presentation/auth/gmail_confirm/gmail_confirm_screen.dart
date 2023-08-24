@@ -19,7 +19,7 @@ class GmailConfirmScreen extends StatefulWidget {
 }
 
 class _GmailConfirmScreenState extends State<GmailConfirmScreen> {
-  final TextEditingController codeController = TextEditingController();
+  String code = "";
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +37,13 @@ class _GmailConfirmScreenState extends State<GmailConfirmScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GlobalTextField(
+                onChanged: (v){
+                  code = v;
+                },
                 hintText: "Code",
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
                 textAlign: TextAlign.start,
-                controller: codeController,
               ),
               GlobalButton(
                 color: AppColors.white,
@@ -49,7 +51,7 @@ class _GmailConfirmScreenState extends State<GmailConfirmScreen> {
                 borderColor: AppColors.black,
                 title: "Confirm",
                 onTap: () {
-                  // context.read<AuthCubit>().confirmGmail(codeController.text);
+                  context.read<AuthCubit>().confirmGmail(code);
                 },
               ),
               const SizedBox(height: 50)

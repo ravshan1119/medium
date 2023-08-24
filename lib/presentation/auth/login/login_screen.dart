@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,8 +17,8 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  String login="";
+  String password="";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,27 +62,33 @@ class _LogInScreenState extends State<LogInScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: GlobalTextField(
+                onChanged: (v){
+                  login = v;
+                },
                   hintText: "Email",
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   textAlign: TextAlign.start,
-                  controller: emailController),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: GlobalTextField(
+                onChanged: (v){
+                  password = v;
+                },
                   hintText: "Password",
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   textAlign: TextAlign.start,
-                  controller: passwordController),
+                ),
             ),
             SizedBox(height: 20.h),
             GlobalButton(title: "Log In", onTap: (){
-              if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+              if (login.isNotEmpty && password.isNotEmpty) {
                 context.read<AuthCubit>().loginUser(
-                  gmail: emailController.text,
-                  password: passwordController.text,
+                  gmail: login,
+                  password: password,
                 );
               }
             }, color: Colors.black, borderColor: Colors.black, textColor: Colors.white),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medium/cubits/auth/auth_cubit.dart';
+import 'package:medium/cubits/user_data/user_data_cubit.dart';
 import 'package:medium/data/local/storage_repository.dart';
 import 'package:medium/data/network/api_service.dart';
 import 'package:medium/data/repositories/auth_repository.dart';
@@ -35,7 +36,10 @@ class App extends StatelessWidget {
             create: (context) => AuthCubit(
               authRepository: context.read<AuthRepository>(),
             ),
-          )
+          ),
+          BlocProvider(
+            create: (context) => UserDataCubit(),
+          ),
         ],
         child: const MyApp(),
       ),

@@ -10,11 +10,11 @@ class CodeInput extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GlobalTextField(
+          onChanged: (v){},
           hintText: "Code",
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
           textAlign: TextAlign.center,
-          controller: TextEditingController(),
         ),
       ],
     );

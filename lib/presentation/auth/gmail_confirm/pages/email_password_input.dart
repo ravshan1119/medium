@@ -25,21 +25,21 @@ class EmailPasswordInput extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GlobalTextField(
+              onChanged: (v){},
               hintText: "Gmail",
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               textAlign: TextAlign.center,
-              controller: gmailController,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GlobalTextField(
+              onChanged: (v){},
               hintText: "Password",
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.done,
               textAlign: TextAlign.center,
-              controller: passwordController,
             ),
           )
         ],
